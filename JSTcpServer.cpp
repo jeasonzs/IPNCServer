@@ -12,14 +12,14 @@
 #include <string.h>
 #include <iostream>
 #include "JSTcpServer.hpp"
+#include "JSNetPkgHandleBase.hpp"
 
 using namespace std;
 
-JSTcpServer::JSTcpServer(int port)
+JSTcpServer::JSTcpServer()
 {
     cout<<__func__<<endl;
     _clientManager = NULL;
-    _port = port;
     _fd = -1;
     
 }
@@ -28,19 +28,18 @@ JSTcpServer::JSTcpServer(int port)
 JSTcpServer::~JSTcpServer()
 {
     cout<<__func__<<endl;
-    _clientManager = NULL;
-    _port = 0;
+    stopServer();
 }
 
 
-int JSTcpServer::startServer(JSTcpClientManager *clientManager)
+int JSTcpServer::startServer(int port,JSNetPkgHandleBase* pkgHandle,int maxSessions)
 {
     
-    _fd = createSocket(_port);
+    _fd = createSocket(port);
     if(_fd <= 0) {
         return _fd;
     }
-    _clientManager = clientManager;
+    _clientManager = new JSTcpClientManager(pkgHandle,maxSessions);
     start();
     return 0;
 }
@@ -50,6 +49,10 @@ int JSTcpServer::stopServer()
     stop();
     if(_fd >= 0) {
         close(_fd);
+    }
+    if(_clientManager) {
+        delete _clientManager;
+        _clientManager = NULL;
     }
     return 0;
 }

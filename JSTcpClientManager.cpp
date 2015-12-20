@@ -43,6 +43,8 @@ int JSTcpClient::add(int fd)
 void JSTcpClient::run()
 {
     int pollResult = 0;
+    ssize_t count;
+    char buf[512];
     while (!needExit()) {
         pollResult = _epoller->wait(1*1000);
         for (int i=0; i<pollResult; i++) {
@@ -58,8 +60,6 @@ void JSTcpClient::run()
                 
                 int needClose = 0;
                 while (1) {
-                    ssize_t count;
-                    char buf[512];
                     count = read (fd, buf, sizeof(buf));
                     if (count == -1) {
                         if (errno != EAGAIN) {

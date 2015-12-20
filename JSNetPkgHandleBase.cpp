@@ -11,9 +11,14 @@
 
 JSNetPkgHandleBase::JSNetPkgHandleBase()
 {
-    
+    _sessionList = NULL;
 }
 JSNetPkgHandleBase::~JSNetPkgHandleBase()
 {
+    _sessionList = NULL;
+}
 
+void JSNetPkgHandleBase::setSessionList(JSTcpClientSessionList* sessionList)
+{
+    _sessionList = sessionList;
 }

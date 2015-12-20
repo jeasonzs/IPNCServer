@@ -21,6 +21,11 @@ public:
     virtual ~JSNetPkgHandleBase();
 
 public:
-    virtual void handle(int fdToHandle,JSTcpClientSessionList* sessionList)=0;
+    void setSessionList(JSTcpClientSessionList* sessionList);
+    virtual void handle(int fdToHandle)=0;
+
+protected:
+    JSTcpClientSessionList* _sessionList;
+
 };
 #endif /* JSNetPkgHandleBase_hpp */

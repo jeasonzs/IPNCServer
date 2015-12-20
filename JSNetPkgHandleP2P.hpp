@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "JSNetPkgHandleBase.hpp"
 #include "JSTcpClientSession.hpp"
+#include "JSPeerManager.hpp"
+
 
 class JSNetPkgHandleP2P : public JSNetPkgHandleBase
 {
@@ -19,7 +21,10 @@ public:
     JSNetPkgHandleP2P();
     virtual ~JSNetPkgHandleP2P();
 private:
-    virtual void handle(int fdToHandle,JSTcpClientSessionList* sessionList);
+    virtual void handle(int fdToHandle);
+    
+private:
+    JSPeerManager* _peerManager;
 };
 
 #endif /* JSNetPkgHandleP2P_hpp */

@@ -14,14 +14,15 @@ using namespace std;
 JSNetPkgHandleP2P::JSNetPkgHandleP2P()
 {
     cout<<__func__<<endl;
+    _peerManager = new JSPeerManager();
 }
 JSNetPkgHandleP2P::~JSNetPkgHandleP2P()
 {
     cout<<__func__<<endl;
 }
-void JSNetPkgHandleP2P::handle(int fdToHandle,JSTcpClientSessionList* sessionList)
+void JSNetPkgHandleP2P::handle(int fdToHandle)
 {
-    cout<<"recv data:"<<*(sessionList->get(fdToHandle)->getData())<<endl;
-    sessionList->get(fdToHandle)->clearData();
-    sessionList->del(fdToHandle);
+    cout<<"recv data:"<<*(_sessionList->get(fdToHandle)->getData())<<endl;
+    _sessionList->get(fdToHandle)->clearData();
+    _sessionList->del(fdToHandle);
 }

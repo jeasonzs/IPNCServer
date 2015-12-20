@@ -93,6 +93,7 @@ JSTcpClientSession::JSTcpClientSession(JSNetPkgHandleBase* pkgHandle,JSEpoller* 
     cout<<__func__<<endl;
     _pkgHandle = pkgHandle;
     _sessionsList = new JSTcpClientSessionList(epoller);
+    pkgHandle->setSessionList(_sessionsList);
 }
 JSTcpClientSession::~JSTcpClientSession()
 {
@@ -113,7 +114,7 @@ void JSTcpClientSession::appendData(int fd,char* dat,int len)
 }
 void JSTcpClientSession::handlePkg(int fd)
 {
-    _pkgHandle->handle(fd,_sessionsList);
+    _pkgHandle->handle(fd);
 }
 void JSTcpClientSession::timeoutCheck(int timeoutSecond)
 {

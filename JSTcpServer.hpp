@@ -17,11 +17,11 @@
 class JSTcpServer : public JSThread
 {
 public:
-    JSTcpServer(int port);
+    JSTcpServer();
     ~JSTcpServer();
 
 public:
-    int startServer(JSTcpClientManager *clientManager);
+    int startServer(int port,JSNetPkgHandleBase* pkgHandle,int maxSessions);
     int stopServer();
 
 private:
@@ -30,7 +30,6 @@ private:
     
     
 private:
-    int _port;
     int _fd;
     JSTcpClientManager *_clientManager;
     
