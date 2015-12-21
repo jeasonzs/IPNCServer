@@ -10,10 +10,31 @@
 
 
 JSPeerProtocolHeader::JSPeerProtocolHeader(int iType,int iFromId,int iToId,int iBodyLen) {
+    startCode = JS_PEER_START_CODE;
     type = iType;
     fromId = iFromId;
     toId = iToId;
     bodyLen = iBodyLen;
+}
+
+
+JSPeerProtocolHeader* JSPeerProtocolHeader::mapPkg(const char* dat,int len,int& pos)
+{
+    pos = 0;
+    JSPeerProtocolHeader* header = NULL;
+    while((len-pos) >= sizeof(JSPeerProtocolHeader)) {
+        header = (JSPeerProtocolHeader*)(dat+pos);
+        if(header->startCode == JS_PEER_START_CODE) {
+            if((len-pos) >= (sizeof(JSPeerProtocolHeader)+header->bodyLen)) {
+                return header;
+            }
+            else {
+                return NULL;
+            }
+        }
+        pos += 4;
+    }
+    return NULL;
 }
 
 JSPeerProtocolRegist::JSPeerProtocolRegist(int iFromId,int iToId)

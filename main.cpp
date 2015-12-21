@@ -5,6 +5,7 @@
 //  Created by jeason on 15/12/8.
 //  Copyright © 2015年 letv. All rights reserved.
 //
+#include <stdlib.h>
 #include <unistd.h>
 #include <iostream>
 #include <signal.h>
@@ -22,7 +23,7 @@ void SigintCb(int iSigNum)
 }
 
 
-#if 0
+#if 1
 int main(int argc, const char * argv[]) {
     // insert code here...
     signal(SIGINT,SigintCb);
@@ -49,9 +50,11 @@ int main(int argc, const char * argv[]) {
     signal(SIGINT,SigintCb);
     signal(SIGALRM,SigintCb);
     std::cout << "start ipncServer!\n";
-    JSPeerProtocolRegist peer(12,14);
+    char* dat = (char*)malloc(sizeof(JSPeerProtocolRegist));
+    JSPeerProtocolRegist* peer = (JSPeerProtocolRegist*)dat;
+    peer->test();
     
-    cout<<peer.bodyLen<<endl;
+    //cout<<peer.bodyLen<<endl;
     
     return 0;
 }

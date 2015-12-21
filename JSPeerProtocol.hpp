@@ -12,6 +12,8 @@
 #include <stdio.h>
 
 
+#define JS_PEER_START_CODE          0x91bd3a74
+
 #define JS_PEER_ID_SERVER           0x00000000
 #define JS_PEER_ID_BROADCAST        0xffffffff
 
@@ -29,11 +31,13 @@
 class JSPeerProtocolHeader
 {
 public:
+    int startCode;
     int type;
     int fromId;
     int toId;
     int bodyLen;
     JSPeerProtocolHeader(int iType,int iFromId,int iToId,int iBodyLen);
+    static JSPeerProtocolHeader* mapPkg(const char* dat,int len,int& pos);
 };
 
 
@@ -43,6 +47,7 @@ public:
     char peerName[32];
     char peerPasswd[32];
     JSPeerProtocolRegist(int iFromId,int iToId);
+    void test(){peerName[12] = 'd';};
 };
 
 class JSPeerProtocolRegistResponse : public JSPeerProtocolHeader
