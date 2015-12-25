@@ -22,7 +22,8 @@ public:
     virtual ~JSNetPkgHandleP2P();
 private:
     virtual void handle(int fdToHandle);
-    
+    void heartResponse(int fd,int id);
+    void registResponse(int fd,int id);
 private:
     JSPeerManager* _peerManager;
 };
