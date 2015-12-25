@@ -62,7 +62,7 @@ void JSTcpServer::run()
 {
     int acceptFd = -1;
     struct sockaddr_in clientAddr;
-    socklen_t len;
+    socklen_t len = sizeof(struct sockaddr_in);
     struct timeval tv;
     tv.tv_sec = 1;
     tv.tv_usec = 0;
