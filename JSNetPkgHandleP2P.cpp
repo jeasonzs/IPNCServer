@@ -22,6 +22,7 @@ JSNetPkgHandleP2P::JSNetPkgHandleP2P()
 JSNetPkgHandleP2P::~JSNetPkgHandleP2P()
 {
     cout<<__func__<<endl;
+    delete _peerManager;
 }
 void JSNetPkgHandleP2P::heartResponse(int fd,int id)
 {
@@ -44,12 +45,14 @@ void JSNetPkgHandleP2P::handle(int fdToHandle)
         switch (header->type) {
                 case JS_PEER_MSG_REGIST:
                 cout<<"regist msg"<<endl;
+                _peerManager->add(header->fromId);
+                _peerManager->setFd(header->fromId,fdToHandle);
+                cout<<"fd="<<fdToHandle<<",_peerManager->size()="<<_peerManager->size()<<endl;
                 registResponse(fdToHandle, header->fromId);
                 break;
                 
                 case JS_PEER_MSG_HEART:
                 cout<<"heart msg"<<endl;
-                
                 heartResponse(fdToHandle, header->fromId);
                 break;
                 

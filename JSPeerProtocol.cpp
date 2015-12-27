@@ -3,7 +3,7 @@
 //  IPNCServer
 //
 //  Created by jeason on 15/12/20.
-//  Copyright © 2015年 letv. All rights reserved.
+//  Copyright 漏 2015骞� letv. All rights reserved.
 //
 
 #include "JSPeerProtocol.hpp"
@@ -66,6 +66,21 @@ JSPeerProtocolHeart::JSPeerProtocolHeart(int iFromId,int iToId)
 
 JSPeerProtocolHeartResponse::JSPeerProtocolHeartResponse(int iFromId,int iToId)
 :JSPeerProtocolHeader(JS_PEER_MSG_HEART_RESPONSE,
+                      iFromId,
+                      iToId,
+                      sizeof(*this)-sizeof(JSPeerProtocolHeader)){
+}
+
+JSPeerProtocolConnect::JSPeerProtocolConnect(int iFromId,int iToId)
+:JSPeerProtocolHeader(JS_PEER_MSG_CONNECT,
+                      iFromId,
+                      iToId,
+                      sizeof(*this)-sizeof(JSPeerProtocolHeader)){
+}
+
+
+JSPeerProtocolConnectResponse::JSPeerProtocolConnectResponse(int iFromId,int iToId)
+:JSPeerProtocolHeader(JS_PEER_MSG_CONNECT_RESPONSE,
                       iFromId,
                       iToId,
                       sizeof(*this)-sizeof(JSPeerProtocolHeader)){

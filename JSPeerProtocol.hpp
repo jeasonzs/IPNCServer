@@ -3,7 +3,7 @@
 //  IPNCServer
 //
 //  Created by jeason on 15/12/20.
-//  Copyright © 2015年 letv. All rights reserved.
+//  Copyright 漏 2015骞� letv. All rights reserved.
 //
 
 #ifndef JSPeerProtocol_hpp
@@ -12,21 +12,21 @@
 #include <stdio.h>
 
 
-#define JS_PEER_START_CODE          0x91bd3a74
+#define JS_PEER_START_CODE          	0x91bd3a74
 
-#define JS_PEER_ID_SERVER           0x00000000
-#define JS_PEER_ID_BROADCAST        0xffffffff
-
-
+#define JS_PEER_ID_SERVER           	0x00000000
+#define JS_PEER_ID_BROADCAST        	0xffffffff
 
 
-#define JS_PEER_MSG_REGIST          0x00000000
-#define JS_PEER_MSG_HEART           0x00000001
 
 
-#define JS_PEER_MSG_REGIST_RESPONSE 0x10000000
-#define JS_PEER_MSG_HEART_RESPONSE  0x10000001
+#define JS_PEER_MSG_REGIST          	0x00000000
+#define JS_PEER_MSG_HEART           	0x00000001
+#define JS_PEER_MSG_CONNECT         	0x00000002
 
+#define JS_PEER_MSG_REGIST_RESPONSE 	0x10000000
+#define JS_PEER_MSG_HEART_RESPONSE 		0x10000001
+#define JS_PEER_MSG_CONNECT_RESPONSE  	0x10000002
 
 class JSPeerProtocolHeader
 {
@@ -67,7 +67,21 @@ public:
 class JSPeerProtocolHeartResponse : public JSPeerProtocolHeader
 {
 public:
-    JSPeerProtocolHeartResponse(int iFromId,int iToId);;
+    JSPeerProtocolHeartResponse(int iFromId,int iToId);
+};
+
+class JSPeerProtocolConnect : public JSPeerProtocolHeader
+{
+public:
+	char iceInfo[512];
+	JSPeerProtocolConnect(int iFromId,int iToId);
+};
+
+class JSPeerProtocolConnectResponse : public JSPeerProtocolHeader
+{
+public:
+	char iceInfo[512];
+	JSPeerProtocolConnectResponse(int iFromId,int iToId);
 };
 
 
