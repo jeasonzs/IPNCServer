@@ -10,6 +10,7 @@
 #include <iostream>
 #include <signal.h>
 #include <sys/time.h>
+#include <sys/resource.h>
 
 #include "JSThread.hpp"
 #include "JSTcpServer.hpp"
@@ -29,6 +30,17 @@ void SigintCb(int iSigNum)
 #if 1
 int main(int argc, const char * argv[]) {
     // insert code here...
+	struct rlimit limit;
+	getrlimit(RLIMIT_NOFILE,&limit);
+	printf("%d,%d\n",limit.rlim_cur,limit.rlim_max);
+	limit.rlim_cur = 1024*4;
+	limit.rlim_max = 1024*4;
+
+	int ret = setrlimit(RLIMIT_NOFILE,&limit);
+	printf("ret=%d\n",ret);
+	getrlimit(RLIMIT_NOFILE,&limit);
+	printf("dsadas\n");
+	printf("%d,%d\n",limit.rlim_cur,limit.rlim_max);
     signal(SIGINT,SigintCb);
     signal(SIGALRM,SigintCb);
     std::cout << "start ipncServer!\n";
@@ -51,6 +63,11 @@ int main(int argc, const char * argv[]) {
 
 
 int main(int argc, const char * argv[]) {
+	struct rlimit limit;
+	getrlimit(RLIMIT_NOFILE,&limit);
+	limit.rlim_cur = 1024*1024;
+	limit.rlim_max = 1024*1024;
+	return 0;
     // insert code here...
 //    signal(SIGINT,SigintCb);
 //    signal(SIGALRM,SigintCb);
