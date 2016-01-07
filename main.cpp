@@ -30,17 +30,6 @@ void SigintCb(int iSigNum)
 #if 1
 int main(int argc, const char * argv[]) {
     // insert code here...
-	struct rlimit limit;
-	getrlimit(RLIMIT_NOFILE,&limit);
-	printf("%d,%d\n",limit.rlim_cur,limit.rlim_max);
-	limit.rlim_cur = 1024*4;
-	limit.rlim_max = 1024*4;
-
-	int ret = setrlimit(RLIMIT_NOFILE,&limit);
-	printf("ret=%d\n",ret);
-	getrlimit(RLIMIT_NOFILE,&limit);
-	printf("dsadas\n");
-	printf("%d,%d\n",limit.rlim_cur,limit.rlim_max);
     signal(SIGINT,SigintCb);
     signal(SIGALRM,SigintCb);
     std::cout << "start ipncServer!\n";
