@@ -77,9 +77,13 @@ public:
 	JSPeerProtocolConnect(int iFromId,int iToId);
 };
 
+#define JS_PEER_CONNECT_STATUS_OK			0
+#define JS_PEER_CONNECT_STATUS_UNSUPPORT	-1
+#define JS_PEER_CONNECT_STATUS_OFFLINE		1
 class JSPeerProtocolConnectResponse : public JSPeerProtocolHeader
 {
 public:
+	int status;
 	char iceInfo[512];
 	JSPeerProtocolConnectResponse(int iFromId,int iToId);
 };

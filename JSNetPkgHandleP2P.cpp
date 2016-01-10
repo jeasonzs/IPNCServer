@@ -43,19 +43,47 @@ void JSNetPkgHandleP2P::handle(int fdToHandle)
     header = JSPeerProtocolHeader::mapPkg(recvData->c_str(), recvData->length(), pos);
     if(header) {
         switch (header->type) {
-                case JS_PEER_MSG_REGIST:
-                cout<<"regist msg"<<endl;
-                _peerManager->add(header->fromId);
-                _peerManager->setFd(header->fromId,fdToHandle);
-                cout<<"fd="<<fdToHandle<<",_peerManager->size()="<<_peerManager->size()<<endl;
-                registResponse(fdToHandle, header->fromId);
-                break;
-                
-                case JS_PEER_MSG_HEART:
-                cout<<"heart msg"<<endl;
-                heartResponse(fdToHandle, header->fromId);
-                break;
-                
+			case JS_PEER_MSG_REGIST:{
+				cout<<"regist msg"<<endl;
+				_peerManager->add(header->fromId);
+				_peerManager->setFd(header->fromId,fdToHandle);
+				cout<<"fd="<<fdToHandle<<",_peerManager->size()="<<_peerManager->size()<<endl;
+				registResponse(fdToHandle, header->fromId);
+			}
+				break;
+
+
+			case JS_PEER_MSG_HEART:{
+				cout<<"heart msg"<<endl;
+				heartResponse(fdToHandle, header->fromId);
+			}
+				break;
+
+
+			case JS_PEER_MSG_CONNECT_RESPONSE:{
+				cout<<"Connect response msg"<<endl;
+				JSPeerProtocolConnectResponse* connectResponse = (JSPeerProtocolConnectResponse*)(header);
+				int fdSend = _peerManager->getFd(connectResponse->toId);
+				send(fdSend,(char*)connectResponse,sizeof(JSPeerProtocolConnectResponse),0);
+			}
+				break;
+
+			case JS_PEER_MSG_CONNECT:{
+				cout<<"Connect msg"<<endl;
+				JSPeerProtocolConnect* connect = (JSPeerProtocolConnect*)header;
+				int fdSend = _peerManager->getFd(connect->toId);
+				if(fdSend >= 0) {
+					send(fdSend,(char*)connect,sizeof(JSPeerProtocolConnect),0);
+				}
+				else {
+					JSPeerProtocolConnectResponse response(JS_PEER_ID_SERVER,connect->fromId);
+					response.status = JS_PEER_CONNECT_STATUS_OFFLINE;
+					response.iceInfo[0] = '\0';
+					send(fdToHandle,(char*)&response,sizeof(JSPeerProtocolConnectResponse),0);
+				}
+			}
+				break;
+
             default:
                 break;
         }
